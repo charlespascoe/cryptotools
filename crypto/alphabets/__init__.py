@@ -1,2 +1,3 @@
 from crypto.alphabets.alphabet import Alphabet
+from crypto.alphabets.alphabet_with_probabilities import AlphabetWithProbabilities
 from crypto.alphabets.english_alphabet import EnglishAlphabet
