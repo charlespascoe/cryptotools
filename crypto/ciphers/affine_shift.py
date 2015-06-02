@@ -6,15 +6,15 @@ class AffineShift:
         self.alph = alph
 
     def encrypt(self, a, b, text):
-        if not utils.coprime(a, len(self.alph)):
+        if not utils.is_coprime(a, len(self.alph)):
             raise Exception('\'a\' and the length of the alphabet must be coprime')
 
-        output = ''
+        output = []
 
         for char in self.alph.strip(text):
-            output += self.alph[(a * self.alph.index(char) + b) % len(self.alph)]
+            output.append(self.alph[(a * self.alph.index(char) + b) % len(self.alph)])
 
-        return output
+        return ''.join(output)
 
     def decrypt(self, a, b, text):
         inv_a = utils.compute_inverse(a, len(self.alph))
