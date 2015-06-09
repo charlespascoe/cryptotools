@@ -7,8 +7,6 @@ class Alphabet:
         return len(self._alph)
 
     def __getitem__(self, index):
-        if index < 0 or index >= len(self._alph):
-            raise IndexError()
         return self._alph[index]
 
     def index(self, item):
@@ -28,4 +26,4 @@ class Alphabet:
         return self._alph
 
     def __contains__(self, item):
-        return item in self._alp
+        return item in self._alph
