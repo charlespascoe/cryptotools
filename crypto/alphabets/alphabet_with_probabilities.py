@@ -3,19 +3,27 @@ from crypto.alphabets import Alphabet
 class AlphabetWithProbabilities(Alphabet):
     def __init__(self):
         super().__init__()
-        self.probs = None
+        self._probs = None
 
-    def init_probs(self):
-        raise NotImplemented()
+    def init_probs(self, prob_loader):
+        data = prob_loader.load(self.__class__.__name__)
 
-    def prob(self, char):
-        if probs is None:
-            self.init_probs()
+        if data is None:
+            return False
 
-        if not char in self:
+        self._probs = data['probs']
+
+        return True
+
+
+    def prob(self, letter):
+        if self._probs is None:
+            raise Exception('Probabilities have not be initialised')
+
+        if not letter in self:
             return 0
 
-        return self.probs[self.index(char)]
+        return self._probs[self.index(letter)]
 
 
 

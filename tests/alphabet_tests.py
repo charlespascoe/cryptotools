@@ -1,6 +1,8 @@
 import unittest
 import crypto.alphabets
 import string
+import json
+
 
 class AlphabetTests(unittest.TestCase):
     def setUp(self):
@@ -33,3 +35,33 @@ class AlphabetTests(unittest.TestCase):
         self.assertTrue('A' in self.alph)
         self.assertFalse('a' in self.alph)
         self.assertFalse('1' in self.alph)
+
+
+class AlphetbetWithProbabilitiesTests(unittest.TestCase):
+    def setUp(self):
+        self.alph = crypto.alphabets.EnglishAlphabet()
+
+        data = {
+            'probs': [1/26 for i in range(len(self.alph))],
+            'digram-probs': None,
+            'trigram-probs': None
+        }
+
+        with open('tests/testing_data/' + self.alph.__class__.__name__ + '.json', 'w') as f:
+            f.write(json.dumps(data))
+
+        self.prob_loader = crypto.alphabets.ProbabilityLoader('tests/testing_data/')
+
+    def test_no_data(self):
+        p = crypto.alphabets.ProbabilityLoader('tests/')
+
+        self.assertFalse(self.alph.init_probs(p))
+
+        with self.assertRaises(Exception):
+            self.alph.prob(alph[0])
+
+    def test_with_data(self):
+        self.assertTrue(self.alph.init_probs(self.prob_loader))
+
+        for letter in self.alph:
+            self.assertEqual(self.alph.prob(letter), 1/26)

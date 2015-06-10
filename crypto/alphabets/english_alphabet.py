@@ -8,6 +8,3 @@ class EnglishAlphabet(AlphabetWithProbabilities):
 
     def strip(self, text):
         return super().strip(text.upper())
-
-    def init_probs(self):
-        raise NotImplemented()
