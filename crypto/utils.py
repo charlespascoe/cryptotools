@@ -1,6 +1,7 @@
 
 def gcd(a, b):
     if b == 0: return a
+    if a == 0: return b
     if a > b: return gcd(b, a % b)
     return gcd(a, b % a)
 
@@ -8,7 +9,7 @@ def is_coprime(a, n):
     return gcd(a, n) == 1
 
 def compute_coprimes(n):
-    return [i for i in range(1, n) if is_coprime(i)]
+    return [i for i in range(1, n) if is_coprime(i, n)]
 
 def phi(n):
     # Lazy
