@@ -103,6 +103,10 @@ class AffineShiftTests(unittest.TestCase):
     def setUp(self):
         self.afs = ciphers.AffineShift(EnglishAlphabet(), 1, 0)
 
+    def test_invalid_key_type(self):
+        with self.assertRaises(TypeError):
+            self.afs.set_key('A', 'B')
+
     def test_invalid_key_value(self):
         with self.assertRaises(Exception):
             self.afs.set_key(2, 0)
