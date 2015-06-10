@@ -6,33 +6,59 @@ from crypto.alphabets import EnglishAlphabet
 class SubstitutionCipherTests(unittest.TestCase):
     def setUp(self):
         self.alph = EnglishAlphabet()
+        self.key = {letter: letter for letter in self.alph}
 
     def test_invalid_key_type(self):
         with self.assertRaises(TypeError):
             sc = ciphers.SubstitutionCipher(self.alph, 'Hello!')
 
     def test_invalid_key_mapping(self):
-        key = {letter: letter for letter in self.alph}
+        self.key['B'] = 'A'
 
-        key['B'] = 'A'
-
-        result = ciphers.SubstitutionCipher.is_valid_key(self.alph, key)
+        result = ciphers.SubstitutionCipher.is_valid_key(self.alph, self.key)
 
         self.assertIsNotNone(result)
         self.assertFalse(result)
 
         with self.assertRaises(Exception):
-            sc = ciphers.SubstitutionCipher(self.alph, key)
+            sc = ciphers.SubstitutionCipher(self.alph, self.key)
 
     def test_valid_key_mapping(self):
-        key = {letter: letter for letter in self.alph}
-
-        result = ciphers.SubstitutionCipher.is_valid_key(self.alph, key)
+        result = ciphers.SubstitutionCipher.is_valid_key(self.alph, self.key)
 
         self.assertIsNotNone(result)
         self.assertTrue(result)
 
+    def test_invert_mapping(self):
+        mapping = {'A': 'X', 'B': 'Y'}
 
+        self.assertEqual(ciphers.SubstitutionCipher.invert_mapping(mapping), {'X': 'A', 'Y': 'B'})
+
+    def test_identity_encryption(self):
+        sc = ciphers.SubstitutionCipher(self.alph, self.key)
+
+        self.assertEqual(sc.encrypt('A'), 'A')
+
+    def test_basic_encryption(self):
+        self.key['A'] = 'B'
+        self.key['B'] = 'A'
+
+        sc = ciphers.SubstitutionCipher(self.alph, self.key)
+
+        self.assertEqual(sc.encrypt('AABCD'), 'BBACD')
+
+    def test_identity_decryption(self):
+        sc = ciphers.SubstitutionCipher(self.alph, self.key)
+
+        self.assertEqual(sc.decrypt('ABC'), 'ABC')
+
+    def test_basic_decryption(self):
+        self.key['A'] = 'B'
+        self.key['B'] = 'A'
+
+        sc = ciphers.SubstitutionCipher(self.alph, self.key)
+
+        self.assertEqual(sc.decrypt('BBACD'), 'AABCD')
 
 class CaesarShiftTests(unittest.TestCase):
     def setUp(self):

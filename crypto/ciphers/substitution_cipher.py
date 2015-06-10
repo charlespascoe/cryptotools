@@ -12,7 +12,7 @@ class SubstitutionCipher:
         if not SubstitutionCipher.is_valid_key(self._alph, key_mapping):
             raise Exception('key_mapping must be bijective and its range and domain must be the provided alphabet')
 
-        self._key = key_mapping
+        self._key_mapping = key_mapping
 
     @classmethod
     def is_valid_key(cls, alph, mapping):
@@ -31,8 +31,13 @@ class SubstitutionCipher:
 
         return len(domain) == 0
 
+    @classmethod
+    def invert_mapping(self, mapping):
+        return {value: key for key, value in mapping.items()}
+
     def encrypt(self, text):
-        pass
+        return ''.join([self._key_mapping[letter] for letter in text if letter in self._key_mapping])
 
     def decrypt(self, text):
-        pass
+        decryption_mapping = SubstitutionCipher.invert_mapping(self._key_mapping)
+        return ''.join([decryption_mapping[letter] for letter in text if letter in decryption_mapping])
