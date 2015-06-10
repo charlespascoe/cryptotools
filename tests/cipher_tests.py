@@ -60,6 +60,29 @@ class SubstitutionCipherTests(unittest.TestCase):
 
         self.assertEqual(sc.decrypt('BBACD'), 'AABCD')
 
+    def test_mixed_case_encryption(self):
+        # This is specifically to test to see if it uses
+        # Alpabet.strip(), as EnglishAlphabet capitalises lowercase letters
+
+        self.key['E'] = 'O'
+        self.key['O'] = 'E'
+
+        sc = ciphers.SubstitutionCipher(self.alph, self.key)
+
+        self.assertEqual(sc.encrypt('Hello, World!!'), 'HOLLEWERLD')
+
+    def test_mixed_case_decryption(self):
+        # This is specifically to test to see if it uses
+        # Alpabet.strip(), as EnglishAlphabet capitalises lowercase letters
+
+        self.key['E'] = 'O'
+        self.key['O'] = 'E'
+
+        sc = ciphers.SubstitutionCipher(self.alph, self.key)
+
+        self.assertEqual(sc.decrypt('Holle, Werld!'), 'HELLOWORLD')
+
+
 class CaesarShiftCipherTests(unittest.TestCase):
     def setUp(self):
         self.cs = ciphers.CaesarShiftCipher(EnglishAlphabet(), 0)

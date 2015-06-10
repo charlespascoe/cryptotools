@@ -39,8 +39,8 @@ class SubstitutionCipher:
         return {value: key for key, value in mapping.items()}
 
     def encrypt(self, text):
-        return ''.join([self._key_mapping[letter] for letter in text if letter in self._key_mapping])
+        return ''.join([self._key_mapping[letter] for letter in self._alph.strip(text)])
 
     def decrypt(self, text):
         decryption_mapping = SubstitutionCipher.invert_mapping(self._key_mapping)
-        return ''.join([decryption_mapping[letter] for letter in text if letter in decryption_mapping])
+        return ''.join([decryption_mapping[letter] for letter in self._alph.strip(text)])
