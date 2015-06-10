@@ -1,11 +1,42 @@
 import unittest
-import crypto.ciphers
+import crypto.ciphers as ciphers
 from crypto.alphabets import EnglishAlphabet
 
 
-class CaesarCipherTests(unittest.TestCase):
+class SubstitutionCipherTests(unittest.TestCase):
     def setUp(self):
-        self.cs = crypto.ciphers.CaesarShift(EnglishAlphabet())
+        self.alph = EnglishAlphabet()
+
+    def test_invalid_key_type(self):
+        with self.assertRaises(TypeError):
+            sc = ciphers.SubstitutionCipher(self.alph, 'Hello!')
+
+    def test_invalid_key_mapping(self):
+        key = {letter: letter for letter in self.alph}
+
+        key['B'] = 'A'
+
+        result = ciphers.SubstitutionCipher.is_valid_key(self.alph, key)
+
+        self.assertIsNotNone(result)
+        self.assertFalse(result)
+
+        with self.assertRaises(Exception):
+            sc = ciphers.SubstitutionCipher(self.alph, key)
+
+    def test_valid_key_mapping(self):
+        key = {letter: letter for letter in self.alph}
+
+        result = ciphers.SubstitutionCipher.is_valid_key(self.alph, key)
+
+        self.assertIsNotNone(result)
+        self.assertTrue(result)
+
+
+
+class CaesarShiftTests(unittest.TestCase):
+    def setUp(self):
+        self.cs = ciphers.CaesarShift(EnglishAlphabet())
 
     def test_identity_encryption(self):
         self.assertEqual(self.cs.encrypt(0, 'A'), 'A')
@@ -34,7 +65,7 @@ class CaesarCipherTests(unittest.TestCase):
 
 class AffineShiftTests(unittest.TestCase):
     def setUp(self):
-        self.afs = crypto.ciphers.AffineShift(EnglishAlphabet())
+        self.afs = ciphers.AffineShift(EnglishAlphabet())
 
     def test_invalid_key_value(self):
         with self.assertRaises(Exception):
@@ -52,4 +83,3 @@ class AffineShiftTests(unittest.TestCase):
 
     def test_basic_key_encryption(self):
         self.assertEqual(self.afs.encrypt(3, 2, 'AABBCC'), 'CCFFII')
-
