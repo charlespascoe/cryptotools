@@ -1,5 +1,5 @@
 import unittest
-import crypto.ciphers.substitution as ciphers
+import crypto.ciphers as ciphers
 from crypto.alphabets import EnglishAlphabet
 
 
@@ -60,9 +60,9 @@ class SubstitutionCipherTests(unittest.TestCase):
 
         self.assertEqual(sc.decrypt('BBACD'), 'AABCD')
 
-class CaesarShiftTests(unittest.TestCase):
+class CaesarShiftCipherTests(unittest.TestCase):
     def setUp(self):
-        self.cs = ciphers.CaesarShift(EnglishAlphabet(), 0)
+        self.cs = ciphers.CaesarShiftCipher(EnglishAlphabet(), 0)
 
     def test_invalid_key_type(self):
         with self.assertRaises(TypeError):
@@ -99,9 +99,9 @@ class CaesarShiftTests(unittest.TestCase):
         self.assertEqual(self.cs.decrypt('AABC'), 'XXYZ')
 
 
-class AffineShiftTests(unittest.TestCase):
+class AffineShiftCipherTests(unittest.TestCase):
     def setUp(self):
-        self.afs = ciphers.AffineShift(EnglishAlphabet(), 1, 0)
+        self.afs = ciphers.AffineShiftCipher(EnglishAlphabet(), 1, 0)
 
     def test_invalid_key_type(self):
         with self.assertRaises(TypeError):
