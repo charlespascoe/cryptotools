@@ -8,11 +8,7 @@ def is_coprime(a, n):
     return gcd(a, n) == 1
 
 def compute_coprimes(n):
-    coprimes = []
-    for i in range(1, n):
-        if gcd(i, n) == 1:
-            coprimes.append(i)
-    return coprimes
+    return [i for i in range(1, n) if is_coprime(i)]
 
 def phi(n):
     # Lazy
