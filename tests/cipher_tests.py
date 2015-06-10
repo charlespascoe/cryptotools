@@ -1,5 +1,5 @@
 import unittest
-import crypto.ciphers as ciphers
+import crypto.ciphers.substitution as ciphers
 from crypto.alphabets import EnglishAlphabet
 
 
@@ -62,50 +62,63 @@ class SubstitutionCipherTests(unittest.TestCase):
 
 class CaesarShiftTests(unittest.TestCase):
     def setUp(self):
-        self.cs = ciphers.CaesarShift(EnglishAlphabet())
+        self.cs = ciphers.CaesarShift(EnglishAlphabet(), 0)
+
+    def test_invalid_key_type(self):
+        with self.assertRaises(TypeError):
+            self.cs.set_key('Hello, world!')
 
     def test_identity_encryption(self):
-        self.assertEqual(self.cs.encrypt(0, 'A'), 'A')
-        self.assertEqual(self.cs.encrypt(0, 'AABC'), 'AABC')
+        self.assertEqual(self.cs.encrypt('A'), 'A')
+        self.assertEqual(self.cs.encrypt('AABC'), 'AABC')
 
     def test_basic_shift_encryption(self):
-        self.assertEqual(self.cs.encrypt(1, 'A'), 'B')
-        self.assertEqual(self.cs.encrypt(1, 'AABC'), 'BBCD')
+        self.cs.set_key(1)
+        self.assertEqual(self.cs.encrypt('A'), 'B')
+        self.assertEqual(self.cs.encrypt('AABC'), 'BBCD')
 
     def test_modulo_encryption(self):
-        self.assertEqual(self.cs.encrypt(1, 'Z'), 'A')
-        self.assertEqual(self.cs.encrypt(3, 'XXYZ'), 'AABC')
+        self.cs.set_key(1)
+        self.assertEqual(self.cs.encrypt('Z'), 'A')
+        self.cs.set_key(3)
+        self.assertEqual(self.cs.encrypt('XXYZ'), 'AABC')
 
     def test_indentity_decryption(self):
-        self.assertEqual(self.cs.decrypt(0, 'A'), 'A')
-        self.assertEqual(self.cs.decrypt(0, 'AABC'), 'AABC')
+        self.assertEqual(self.cs.decrypt('A'), 'A')
+        self.assertEqual(self.cs.decrypt('AABC'), 'AABC')
 
     def test_basic_shift_decryption(self):
-        self.assertEqual(self.cs.decrypt(1, 'B'), 'A')
-        self.assertEqual(self.cs.decrypt(1, 'BBCD'), 'AABC')
+        self.cs.set_key(1)
+        self.assertEqual(self.cs.decrypt('B'), 'A')
+        self.assertEqual(self.cs.decrypt('BBCD'), 'AABC')
 
     def test_modulo_decryption(self):
-        self.assertEqual(self.cs.decrypt(1, 'A'), 'Z')
-        self.assertEqual(self.cs.decrypt(3, 'AABC'), 'XXYZ')
+        self.cs.set_key(1)
+        self.assertEqual(self.cs.decrypt('A'), 'Z')
+        self.cs.set_key(3)
+        self.assertEqual(self.cs.decrypt('AABC'), 'XXYZ')
 
 
 class AffineShiftTests(unittest.TestCase):
     def setUp(self):
-        self.afs = ciphers.AffineShift(EnglishAlphabet())
+        self.afs = ciphers.AffineShift(EnglishAlphabet(), 1, 0)
 
     def test_invalid_key_value(self):
         with self.assertRaises(Exception):
-            self.afs.encrypt(2, 0, 'Test')
+            self.afs.set_key(2, 0)
 
     def test_identity_encryption(self):
-        self.assertEqual(self.afs.encrypt(1, 0, 'A'), 'A')
-        self.assertEqual(self.afs.encrypt(1, 0, 'AABC'), 'AABC')
+        self.assertEqual(self.afs.encrypt('A'), 'A')
+        self.assertEqual(self.afs.encrypt('AABC'), 'AABC')
 
     def test_basic_a_key_encryption(self):
-        self.assertEqual(self.afs.encrypt(3, 0, 'ABBC'), 'ADDG')
+        self.afs.set_key(3, 0)
+        self.assertEqual(self.afs.encrypt('ABBC'), 'ADDG')
 
     def test_basic_b_key_encryption(self):
-        self.assertEqual(self.afs.encrypt(1, 1, 'ABBC'), 'BCCD')
+        self.afs.set_key(1, 1)
+        self.assertEqual(self.afs.encrypt('ABBC'), 'BCCD')
 
     def test_basic_key_encryption(self):
-        self.assertEqual(self.afs.encrypt(3, 2, 'AABBCC'), 'CCFFII')
+        self.afs.set_key(3, 2)
+        self.assertEqual(self.afs.encrypt('AABBCC'), 'CCFFII')
