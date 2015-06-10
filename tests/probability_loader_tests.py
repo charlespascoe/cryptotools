@@ -2,6 +2,7 @@ import unittest
 import json
 from crypto.alphabets import ProbabilityLoader
 
+
 class ProbabilityLoaderTests(unittest.TestCase):
     def setUp(self):
         example_data = {
@@ -26,6 +27,3 @@ class ProbabilityLoaderTests(unittest.TestCase):
             'digram-probs': None,
             'trigram-probs': None
         })
-
-
-

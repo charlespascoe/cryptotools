@@ -1,5 +1,6 @@
 from crypto.alphabets import Alphabet
 
+
 class AlphabetWithProbabilities(Alphabet):
     def __init__(self):
         super().__init__()
@@ -15,7 +16,6 @@ class AlphabetWithProbabilities(Alphabet):
 
         return True
 
-
     def prob(self, letter):
         if self._probs is None:
             raise Exception('Probabilities have not be initialised')
@@ -24,6 +24,3 @@ class AlphabetWithProbabilities(Alphabet):
             return 0
 
         return self._probs[self.index(letter)]
-
-
-

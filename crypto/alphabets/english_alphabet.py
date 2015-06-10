@@ -1,6 +1,7 @@
 from crypto.alphabets import AlphabetWithProbabilities
 import string
 
+
 class EnglishAlphabet(AlphabetWithProbabilities):
     def __init__(self):
         super().__init__()
