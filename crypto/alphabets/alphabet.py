@@ -13,11 +13,7 @@ class Alphabet:
         return self._alph.index(item)
 
     def strip(self, text):
-        output = ''
-        for char in text:
-            if char in self._alph:
-                output += char
-        return output
+        return ''.join([letter for letter in text if letter in self])
 
     def __iter__(self):
         return iter(self._alph)
