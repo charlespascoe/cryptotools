@@ -4,7 +4,7 @@ from crypto.alphabets import Alphabet
 class AlphabetWithProbabilities(Alphabet):
     def __init__(self):
         super().__init__()
-        self._probs = None
+        self.probs = None
 
     def init_probs(self, prob_loader):
         data = prob_loader.load(self.__class__.__name__)
@@ -12,12 +12,12 @@ class AlphabetWithProbabilities(Alphabet):
         if data is None:
             return False
 
-        self._probs = data['probs']
+        self.probs = data['probs']
 
         return True
 
     def prob(self, letter):
-        if self._probs is None:
+        if self.probs is None:
             raise Exception('Probabilities have not be initialised')
 
         if not letter in self:
