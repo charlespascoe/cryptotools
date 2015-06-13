@@ -1,14 +1,14 @@
 import argparse
 import sys
 import cli.cipher
+import cli.analysis
 
 parser = argparse.ArgumentParser()
 
 subparsers = parser.add_subparsers()
 
 cli.cipher.create_parsers(subparsers)
-
-analysis_parser = subparsers.add_parser('analysis', help='Various analysis tools').add_subparsers(help='Wut?')
+cli.analysis.create_parsers(subparsers)
 
 result = parser.parse_args()
 
@@ -16,7 +16,7 @@ if 'func' not in result:
     parser.print_help()
     sys.exit(0)
 
-result.func(sys.stdin, result, sys.stdout)
+result.func(result, sys.stdin, sys.stderr, sys.stdout)
 
 sys.stdin.close()
 sys.stdout.close()
