@@ -14,7 +14,7 @@ _cryptotools_opts () {
         action=${COMP_WORDS[1]}
         case "$action" in
             'ciphers')
-                COMPREPLY=($(compgen -W 'caesar-shift affine-shift' -- $cur)) ;;
+                COMPREPLY=($(compgen -W 'caesar-shift affine-shift vigenere' -- $cur)) ;;
             'analysis')
                 COMPREPLY=($(compgen -W 'caesar-shift-cracker' -- $cur)) ;;
         esac;

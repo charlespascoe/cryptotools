@@ -1,3 +1,4 @@
 from crypto.ciphers.substitution_cipher import SubstitutionCipher
 from crypto.ciphers.caesar_shift_cipher import CaesarShiftCipher
 from crypto.ciphers.affine_shift_cipher import AffineShiftCipher
+from crypto.ciphers.vigenere_cipher import VigenereCipher

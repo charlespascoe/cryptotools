@@ -16,6 +16,10 @@ def create_parsers(parser):
     affine_shift_parser.add_argument('b', type=int, help='The value of \'b\'')
     affine_shift_parser.set_defaults(func=affine_shift)
 
+    vigenere_parser = subparsers.add_parser('vigenere', help='A simple Polyalphabetic cipher')
+    vigenere_parser.add_argument('keyword', help='The keyword used to encrypt the text')
+    vigenere_parser.set_defaults(func=vigenere)
+
 
 def handle_cipher(cipher, args, src, log, dst):
     f = cipher.decrypt if args.decrypt else cipher.encrypt
@@ -29,3 +33,7 @@ def caesar_shift(args, src, log, dst):
 
 def affine_shift(args, src, log, dst):
     handle_cipher(ciphers.AffineShiftCipher(EnglishAlphabet(), args.a, args.b), args, src, log, dst)
+
+
+def vigenere(args, src, log, dst):
+    handle_cipher(ciphers.VigenereCipher(EnglishAlphabet(), args.keyword), args, src, log, dst)
