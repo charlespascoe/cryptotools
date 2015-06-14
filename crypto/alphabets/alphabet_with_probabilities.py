@@ -23,4 +23,4 @@ class AlphabetWithProbabilities(Alphabet):
         if not letter in self:
             return 0
 
-        return self._probs[self.index(letter)]
+        return self.probs[self.index(letter)]

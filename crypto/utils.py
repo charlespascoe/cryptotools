@@ -37,6 +37,9 @@ def compute_probabilities(text, alph):
 
     probs = [0] * len(alph)
 
+    if total == 0:
+        return probs
+
     for i in range(len(alph)):
         probs[i] = freqs[i] / total
 

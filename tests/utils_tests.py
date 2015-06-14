@@ -91,6 +91,10 @@ class ComputePropbabilitiesTests(unittest.TestCase):
     def setUp(self):
         self.alph = EnglishAlphabet()
 
+    def test_empty_string(self):
+        probs = utils.compute_probabilities('', self.alph)
+        self.assertEqual(probs, [0] * len(self.alph))
+
     def test_simple_string(self):
         probs = utils.compute_probabilities('AAABBCD', self.alph)
         self.assertEqual(probs, [3/7, 2/7, 1/7, 1/7, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0])
