@@ -1,1 +1,2 @@
 from crypto.analysis.caesar_shift_cracker import CaesarShiftCracker
+from crypto.analysis.affine_shift_cracker import AffineShiftCracker

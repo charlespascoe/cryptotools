@@ -10,7 +10,7 @@ class CaesarShiftCracker:
 
         self._alph = alph
 
-    def guess_key(self, ciphertext):
+    def guess_key(self, ciphertext, return_weight=False):
         ciphertext = self._alph.strip(ciphertext)
 
         probs = utils.compute_probabilities(ciphertext, self._alph)
@@ -25,7 +25,7 @@ class CaesarShiftCracker:
                 best_weight = w
                 best_shift = shift
 
-        return best_shift
+        return (best_shift, best_weight) if return_weight else best_shift
 
     def calculate_weight(self, probs, expected_probs, shift):
         weight = 0
