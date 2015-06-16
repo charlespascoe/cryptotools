@@ -23,7 +23,7 @@ _cryptotools_opts () {
     return 0;
 }
 
-# Need a better method than this
-alias ct='python ct.py'
+DIR=$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )
+alias ct="python $DIR/ct.py"
 
 complete -F _cryptotools_opts ct
