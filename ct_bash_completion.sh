@@ -24,6 +24,6 @@ _cryptotools_opts () {
 }
 
 # Need a better method than this
-alias ct='python ct'
+alias ct='python ct.py'
 
 complete -F _cryptotools_opts ct
