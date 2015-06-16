@@ -22,3 +22,8 @@ _cryptotools_opts () {
 
     return 0;
 }
+
+# Need a better method than this
+alias ct='python ct'
+
+complete -F _cryptotools_opts ct
