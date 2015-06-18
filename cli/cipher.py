@@ -24,7 +24,7 @@ def create_parsers(parser):
 def handle_cipher(cipher, args, src, log, dst):
     f = cipher.decrypt if args.decrypt else cipher.encrypt
 
-    dst.write(f(src.read()))
+    dst.write(f(src))
 
 
 def caesar_shift(args, src, log, dst):

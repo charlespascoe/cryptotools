@@ -25,7 +25,7 @@ def crack_caesar(args, src, log, dst):
 
     cracker = crypto.analysis.CaesarShiftCracker(alph)
 
-    ciphertext = src.read()
+    ciphertext = src
 
     best_key = cracker.guess_key(ciphertext)
 
@@ -46,7 +46,7 @@ def crack_affine(args, src, log, dst):
 
     cracker = crypto.analysis.AffineShiftCracker(alph)
 
-    ciphertext = src.read()
+    ciphertext = src
 
     best_a, best_b = cracker.guess_key(ciphertext)
 

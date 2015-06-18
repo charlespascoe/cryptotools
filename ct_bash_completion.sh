@@ -5,20 +5,20 @@ _cryptotools_opts () {
     COMPREPLY=()
 
     cur=${COMP_WORDS[COMP_CWORD]}
+    prev=${COMP_WORDS[COMP_CWORD - 1]}
 
-    if (( $COMP_CWORD == 1 )) ; then
-        COMPREPLY=( $(compgen -W 'ciphers analysis' -- $cur))
-    fi;
+    CIPHERS="caesar-shift affine-shift vigenere"
 
-    if (( $COMP_CWORD >= 2)) ; then
-        action=${COMP_WORDS[1]}
-        case "$action" in
-            'ciphers')
-                COMPREPLY=($(compgen -W 'caesar-shift affine-shift vigenere' -- $cur)) ;;
-            'analysis')
-                COMPREPLY=($(compgen -W 'caesar-shift-cracker affine-shift-cracker' -- $cur)) ;;
-        esac;
-    fi;
+    case "$prev" in
+        "ciphers")
+            COMPREPLY=($(compgen -W "-d $CIPHERS" -- $cur)) ;;
+        "-d")
+            COMPREPLY=($(compgen -W "$CIPHERS" -- $cur)) ;;
+        "analysis")
+            COMPREPLY=($(compgen -W "caesar-shift-cracker affine-shift-cracker" -- $cur)) ;;
+        *)
+            COMPREPLY=($(compgen -W "ciphers analysis -i -f -h --help" -- $cur)) ;;
+    esac;
 
     return 0;
 }
