@@ -1,6 +1,7 @@
 import crypto.alphabets
 import crypto.analysis
 import crypto.ciphers
+import os.path as op
 
 def create_parsers(parser):
     analysis_parser = parser.add_parser('analysis', help='Analysis things')
@@ -15,7 +16,7 @@ def create_parsers(parser):
 
 
 def crack_caesar(args, src, log, dst):
-    pl = crypto.alphabets.ProbabilityLoader('crypto/alphabets/data')
+    pl = crypto.alphabets.ProbabilityLoader(op.join(op.dirname(op.dirname(__file__)), 'crypto/alphabets/data'))
 
     alph = crypto.alphabets.EnglishAlphabet()
 
@@ -36,7 +37,7 @@ def crack_caesar(args, src, log, dst):
 
 
 def crack_affine(args, src, log, dst):
-    pl = crypto.alphabets.ProbabilityLoader('crypto/alphabets/data')
+    pl = crypto.alphabets.ProbabilityLoader(op.join(op.dirname(op.dirname(__file__)), 'crypto/alphabets/data'))
 
     alph = crypto.alphabets.EnglishAlphabet()
 
