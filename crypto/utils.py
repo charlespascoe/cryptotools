@@ -31,16 +31,24 @@ def compute_frequencies(text, alph):
     return freqs
 
 def compute_probabilities(text, alph):
-    freqs = compute_frequencies(text, alph)
+    return compute_probabilities(compute_frequencies(text, alph))
 
+def compute_probabilities(freqs):
     total = sum(freqs)
 
-    probs = [0] * len(alph)
+    probs = [0] * len(freqs)
 
     if total == 0:
         return probs
 
-    for i in range(len(alph)):
+    for i in range(len(freqs)):
         probs[i] = freqs[i] / total
 
     return probs
+
+def index_of_coincidence_from_probs(probs):
+    return sum([pow(p, 2) for p in probs])
+
+def index_of_coincidence(freqs):
+    n = sum(freqs)
+    return sum([f * (f - 1) for f in freqs]) / (n * (n - 1))

@@ -15,7 +15,7 @@ _cryptotools_opts () {
         "-d")
             COMPREPLY=($(compgen -W "$CIPHERS" -- $cur)) ;;
         "analysis")
-            COMPREPLY=($(compgen -W "caesar-shift-cracker affine-shift-cracker" -- $cur)) ;;
+            COMPREPLY=($(compgen -W "caesar-shift-cracker affine-shift-cracker column-analysis" -- $cur)) ;;
         *)
             COMPREPLY=($(compgen -W "ciphers analysis -i -f -h --help" -- $cur)) ;;
     esac;

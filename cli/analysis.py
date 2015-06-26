@@ -1,18 +1,23 @@
 import crypto.alphabets
 import crypto.analysis
 import crypto.ciphers
+import crypto.utils as utils
 import os.path as op
+import math
 
 def create_parsers(parser):
     analysis_parser = parser.add_parser('analysis', help='Analysis things')
 
-    subparsers = analysis_parser.add_subparsers(help=   'Analysis tools')
+    subparsers = analysis_parser.add_subparsers(help='Analysis tools')
 
     caesar_shift_cracker_parser = subparsers.add_parser('caesar-shift-cracker', help='Cracks caesar shift')
     caesar_shift_cracker_parser.set_defaults(func=crack_caesar)
 
     affine_shift_cracker_parser = subparsers.add_parser('affine-shift-cracker', help='Cracks affine shift')
     affine_shift_cracker_parser.set_defaults(func=crack_affine)
+
+    column_analysis_parser = subparsers.add_parser('column-analysis', help='Column Analysis')
+    column_analysis_parser.set_defaults(func=column_analysis)
 
 
 def crack_caesar(args, src, log, dst):
@@ -55,3 +60,46 @@ def crack_affine(args, src, log, dst):
     afs = crypto.ciphers.AffineShiftCipher(alph, best_a, best_b)
 
     dst.write(afs.decrypt(ciphertext))
+
+
+def column_analysis(args, src, log, dst):
+    pl = crypto.alphabets.ProbabilityLoader(op.join(op.dirname(op.dirname(__file__)), 'crypto/alphabets/data'))
+
+    alph = crypto.alphabets.EnglishAlphabet()
+
+    if not alph.init_probs(pl):
+        raise Exception('Failed to load probabilities')
+
+    src = alph.strip(src)
+
+    if len(src) == 0:
+        return
+
+    limit = 50
+
+    graph_width = 100
+
+    ca = crypto.analysis.ColumnAnalyser(alph)
+
+    iocs = ca.analyse(src, limit)
+
+    header = (' ' * 3) + '|' + (' ' * math.floor((graph_width - 1) / 2)) + '1' + (' ' * math.floor((graph_width - 1) / 2)) + '2\n'
+    header += '---|' + ('-' * graph_width) + '\n'
+
+    log.write(header)
+
+    alph_ioc = utils.index_of_coincidence_from_probs(alph.probs)
+
+    for i in range(1, limit + 1):
+        row = str(i).rjust(3) + '|'
+
+        y = round(graph_width * (iocs[i] / alph_ioc) * 0.5)
+
+        if y > graph_width:
+            y = graph_width
+
+        row += ('#' * y) + (' ' * (graph_width - y))
+
+        log.write(row + '\n')
+
+
