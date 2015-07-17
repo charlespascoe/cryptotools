@@ -31,9 +31,9 @@ def compute_frequencies(text, alph):
     return freqs
 
 def compute_probabilities(text, alph):
-    return compute_probabilities(compute_frequencies(text, alph))
+    return compute_probabilities_from_freqs(compute_frequencies(text, alph))
 
-def compute_probabilities(freqs):
+def compute_probabilities_from_freqs(freqs):
     total = sum(freqs)
 
     probs = [0] * len(freqs)
