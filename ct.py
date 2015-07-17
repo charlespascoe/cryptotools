@@ -34,6 +34,7 @@ else:
 
 result.func(result, src, sys.stderr, sys.stdout)
 
+sys.stderr.flush()
 sys.stdin.close()
 sys.stdout.close()
 sys.stderr.write('\n')
