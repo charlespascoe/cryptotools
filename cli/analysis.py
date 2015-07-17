@@ -19,6 +19,10 @@ def create_parsers(parser):
     column_analysis_parser = subparsers.add_parser('column-analysis', help='Column Analysis')
     column_analysis_parser.set_defaults(func=column_analysis)
 
+    vigenere_cracker_parser = subparsers.add_parser('vigenere-cracker', help='Cracks vigenere')
+    vigenere_cracker_parser.add_argument('keylength', type=int, help='The length of the Vigenere Keyword')
+    vigenere_cracker_parser.set_defaults(func=crack_vigenere)
+
 
 def crack_caesar(args, src, log, dst):
     pl = crypto.alphabets.ProbabilityLoader(op.join(op.dirname(op.dirname(__file__)), 'crypto/alphabets/data'))
@@ -102,4 +106,23 @@ def column_analysis(args, src, log, dst):
 
         log.write(row + '\n')
 
+def crack_vigenere(args, src, log, dst):
+    pl = crypto.alphabets.ProbabilityLoader(op.join(op.dirname(op.dirname(__file__)), 'crypto/alphabets/data'))
 
+    alph = crypto.alphabets.EnglishAlphabet()
+
+    if not alph.init_probs(pl):
+        raise Exception('Failed to load probabilities')
+
+    vc = crypto.analysis.VigenereCracker(alph)
+
+    best_key = vc.guess_key(src, args.keylength)
+
+    vigenere = crypto.ciphers.VigenereCipher(alph, best_key)
+
+    plaintext = vigenere.decrypt(src)
+
+    log.write('Best keyword: ' + best_key + '\n')
+    # log.flush()
+
+    dst.write(plaintext)
