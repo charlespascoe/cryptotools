@@ -20,6 +20,10 @@ def create_parsers(parser):
     vigenere_parser.add_argument('keyword', help='The keyword used to encrypt the text')
     vigenere_parser.set_defaults(func=vigenere)
 
+    keyword_parser = subparsers.add_parser('keyword', help='Keyword Substitution cipher')
+    keyword_parser.add_argument('keyword', help='The keyword used to encrypt the text')
+    keyword_parser.set_defaults(func=keyword)
+
 
 def handle_cipher(cipher, args, src, log, dst):
     f = cipher.decrypt if args.decrypt else cipher.encrypt
@@ -37,3 +41,7 @@ def affine_shift(args, src, log, dst):
 
 def vigenere(args, src, log, dst):
     handle_cipher(ciphers.VigenereCipher(EnglishAlphabet(), args.keyword), args, src, log, dst)
+
+
+def keyword(args, src, log, dst):
+    handle_cipher(ciphers.KeywordSubstitutionCipher(EnglishAlphabet(), args.keyword), args, src, log, dst)

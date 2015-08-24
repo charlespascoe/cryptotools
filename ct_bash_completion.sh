@@ -7,7 +7,7 @@ _cryptotools_opts () {
     cur=${COMP_WORDS[COMP_CWORD]}
     prev=${COMP_WORDS[COMP_CWORD - 1]}
 
-    CIPHERS="caesar-shift affine-shift vigenere"
+    CIPHERS="caesar-shift affine-shift vigenere keyword"
 
     case "$prev" in
         "ciphers")
